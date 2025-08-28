@@ -1,0 +1,687 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+    <script src="glow-paths.js"></script>
+
+    <style>
+      #loadingScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/kaple%20Bo%C5%BE%C3%ADho%20hrobu2.jpeg?v=1747831060561")
+          center center / cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-family: "Georgia", serif;
+        color: white;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+      }
+
+      .loading-content {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+      }
+
+      .title {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.3em;
+        margin-bottom: 30px;
+      }
+
+      .loading-bar {
+        width: 100%;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
+      }
+
+      .bar-progress {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(to right, #ffdd99, #ffcc66, #ffbb33);
+        animation: progressAnim 9s linear forwards;
+      }
+
+      @keyframes progressAnim {
+        to {
+          width: 100%;
+        }
+      }
+
+      .loading-text {
+        font-size: 1.2em;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading screen -->
+    <div id="loadingScreen">
+      <div class="loading-content">
+        <div class="stained-glass"></div>
+        <div class="text-content">
+          <div class="title">Welcome to the virtual tour</div>
+          <div class="subtitle">
+            The demolished church in the СTU area at Zbořenec
+          </div>
+          <div class="loading-bar">
+            <div class="bar-progress"></div>
+          </div>
+          <div class="loading-text">Loading scene...</div>
+        </div>
+      </div>
+    </div>
+
+    <a-scene limit-fps>
+      <a-assets>
+        <img
+          id="sky"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/Hazy_Afternoon_Backplate_001.png?v=1745776133212"
+          crossorigin="anonymous"
+        />
+        <img
+          id="exterior_1890"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/foto_retu%C5%A1.jpeg?v=1746467541804"
+          crossorigin="anonymous"
+        />
+        <img
+          id="exterior_1890Panel"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/foto_retuš_croped.jpg?v=1747867417870"
+          crossorigin="anonymous"
+        />
+        <img
+          id="apsida"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/Interior_apsida_Eckert.jpg?v=1746622229543"
+          crossorigin="anonymous"
+        />
+        <img
+          id="apsidaPanel"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/oltar.JPG?v=1747867145056"
+          crossorigin="anonymous"
+        />
+        <img
+          id="kruchta"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/interior_kruchta_foto_Eckert.jpg?v=1747772548631"
+          crossorigin="anonymous"
+        />
+        <img
+          id="kruchtaPanel"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/pohled_ke_kruchte_croped.JPG?v=1747867162522"
+          crossorigin="anonymous"
+        />
+        <img
+          id="kaple_img"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/kaple_noviny.JPG?v=1747773160809"
+          crossorigin="anonymous"
+        />
+        <img
+          id="kaple_imgPanel"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/kaple_noviny_croped.JPG?v=1747867142595"
+          crossorigin="anonymous"
+        />
+        <img
+          id="exterior_morstadt"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/Morstadt.jpg?v=1747773578381"
+          crossorigin="anonymous"
+        />
+        <img
+          id="exterior_morstadtPanel"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/Morstadt_croped.JPG?v=1747867154650"
+          crossorigin="anonymous"
+        />
+        <img
+          id="exterior_bok"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/exterior_Eckert1904.jpg?v=1747773320480"
+          crossorigin="anonymous"
+        />
+        <img
+          id="exterior_bokPanel"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/exterior_Eckert1904_croped?v=1747867133003"
+          crossorigin="anonymous"
+        />
+
+        <a-asset-item
+          id="board_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/board.glb?v=1748030449116"
+        ></a-asset-item>
+        <a-asset-item
+          id="exterior_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/exterior.glb?v=1748030721525"
+        ></a-asset-item>
+        <a-asset-item
+          id="interior_m"
+          src="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/interior.glb?v=1748030073594"
+        ></a-asset-item>
+        <a-asset-item
+          id="lavice_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/lavice.glb?v=1748030059391"
+        ></a-asset-item>
+        <a-asset-item
+          id="oltar_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/oltar.glb?v=1748030064065"
+        ></a-asset-item>
+        <a-asset-item
+          id="kaple_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/kaple.glb?v=1747774988453"
+        ></a-asset-item>
+        <a-asset-item
+          id="roof_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/roof.glb?v=1748030073528"
+        ></a-asset-item>
+        <a-asset-item
+          id="windows_m"
+          src="https://cdn.glitch.global/7c9042da-0e88-4348-80f6-e62dbb0aef85/windows.glb?v=1747953183315"
+        ></a-asset-item>
+        <a-asset-item
+          id="easel_m"
+          src="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          scale="0.69913 0.69913 0.69913"
+        ></a-asset-item>
+        <a-asset-item
+          id="environment_m"
+          src="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/grass.glb?v=1747953217461"
+        ></a-asset-item>
+
+        <a-mixin
+          id="frame_vertical"
+          geometry="primitive: plane; width: 0.8190; height: 0.5783552"
+          material="color: white; shader: flat"
+          animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
+          animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
+        ></a-mixin>
+        <a-mixin
+          id="frame_horizontal"
+          geometry="primitive: plane; width: 1.7783552; height: 0.6190"
+          material="color: white; shader: flat"
+          animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
+          animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
+        ></a-mixin>
+        <a-mixin
+          id="poster_v"
+          geometry="primitive: plane; width: 0.786432; height: 0.5444768"
+          material="color: white; shader: flat"
+          position="0 0 0.005"
+        ></a-mixin>
+        <a-mixin
+          id="poster_h"
+          geometry="primitive: plane; width: 1.7444768; height: 0.586432"
+          material="color: white; shader: flat"
+          position="0 0 0.005"
+        ></a-mixin>
+        <a-mixin
+          id="infoPlaneImage"
+          geometry="primitive: plane; width: 1.5; height: 0.81"
+          material="src: #apsida; shader: flat; transparent: true"
+          position="0 0.695 0.002"
+        ></a-mixin>
+      </a-assets>
+
+      <a-entity
+        gltf-model="#exterior_m"
+        class="nav-mesh"
+        scale="1.922 1.922 1.922"
+      ></a-entity>
+      <a-entity
+        gltf-model="#interior_m"
+        class="nav-mesh"
+        scale="1.922 1.922 1.922"
+      ></a-entity>
+      <a-entity gltf-model="#oltar_m" scale="1.922 1.922 1.922"></a-entity>
+      <a-entity gltf-model="#lavice_m" scale="1.6369 1.6369 1.6369"></a-entity>
+      <a-entity gltf-model="#roof_m" scale="1.922 1.922 1.922"></a-entity>
+      <a-entity
+        gltf-model="#kaple_m"
+        class="nav-mesh"
+        scale="1.922 1.922 1.922"
+      ></a-entity>
+      <a-entity gltf-model="#windows_m" scale="1.922 1.922 1.922"></a-entity>
+      <a-entity
+        gltf-model="#environment_m"
+        class="nav-mesh"
+        scale="1.922 1.922 1.922"
+      >
+      </a-entity>
+      <a-entity
+        gltf-model="#board_m"
+        scale="0.16803 0.16803 0.16803"
+        position="47.11546 0.038 11.79299"
+        rotation="0 90 0"
+        id="board"
+      ></a-entity>
+      <a-entity id="paths" glow-paths></a-entity>
+
+      <a-entity
+        id="background"
+        follow-camera="offset: 0 0 0"
+        geometry="primitive: sphere; radius: 2.0"
+        material="color: red; side: back; shader: flat"
+        scale="0.001 0.001 0.001"
+        visible="false"
+        class="raycastable"
+      >
+      </a-entity>
+
+      <!-- Camera settings -->
+      <a-entity
+        id="cameraRig"
+        position="52.57630229299395 1.8 11.694823764109225"
+        rotation="0 90 0"
+        movement-controls="constrainToNavMesh: true"
+        navigator="cameraRig: #cameraRig; cameraHead: #head;"
+      >
+        <a-entity
+          id="head"
+          camera="fov: 70"
+          look-controls=""
+          wasd-controls=""
+          position="0 0 -4.7488866650805965"
+        >
+          <a-entity
+            id="fadeBackground"
+            geometry="primitive: sphere; radius: 1.5"
+            material="shader: flat; side: back; blending: subtractive; color: #999999"
+            visible="false"
+          >
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          id="rightHand"
+          oculus-touch-controls=""
+          laser-controls=""
+          raycaster="objects: .raycastable"
+          line="color: #118A7E"
+          blink-controls="button: thumbstick; collisionEntities: .navmesh; cameraRig: #cameraRig; teleportOrigin: #head; hitCylinderColor: #d0f5e4; hitCylinderRadius: 0.35; curveLineWidth: 0.015; curveHitColor: #70f598; rotateOnTeleport: false"
+          hp-mixed-reality-controls="hand: right"
+          magicleap-controls="hand: right"
+          oculus-go-controls="hand: right"
+          meta-touch-controls="hand: right"
+          pico-controls="hand: right"
+          valve-index-controls="hand: right"
+          vive-controls="hand: right"
+          vive-focus-controls="hand: right"
+          windows-motion-controls=""
+          generic-tracked-controller-controls="hand: right"
+        ></a-entity>
+
+        <a-entity
+          id="leftHand"
+          oculus-touch-controls=""
+          laser-controls="hand: left"
+          cursor="rayOrigin: mouse"
+          raycaster="direction: -0.5351929563625936 0.3725899506359837 0.7581195342061449; objects: .raycastable; origin: 47.82741562791335 1.8 11.694823764109223; useWorldCoordinates: true"
+          blink-controls="button: thumbstick; collisionEntities: .navmesh; cameraRig: #cameraRig; teleportOrigin: #head; hitCylinderColor: #d0f5e4; hitCylinderRadius: 0.35; curveLineWidth: 0.015; curveHitColor: #70f598; rotateOnTeleport: false"
+          hp-mixed-reality-controls="hand: left"
+          magicleap-controls="hand: left"
+          oculus-go-controls="hand: left"
+          meta-touch-controls=""
+          pico-controls="hand: left"
+          valve-index-controls=""
+          vive-controls=""
+          vive-focus-controls="hand: left"
+          windows-motion-controls="hand: left"
+          generic-tracked-controller-controls="hand: left"
+        ></a-entity>
+      </a-entity>
+      <!-- Light Settings -->
+      <a-entity
+        id="ambient"
+        light="color: #cfcbd7; intensity: 0.32; type: ambient"
+      ></a-entity>
+      <a-entity
+        id="front_light"
+        light="color: #f3e2d2; intensity: 2.16; castShadow: false"
+        position="19.85334 18.28001 0"
+        rotation="-39.048792611550994 89 2"
+      ></a-entity>
+      <a-entity
+        id="back_light"
+        light="intensity: 0.1; castShadow: false"
+        position="-22.09862 4.60823 0"
+        rotation="47.328032751191394 115.4607360013781 -112.67215041247638"
+      ></a-entity>
+      <a-entity
+        id="side_light"
+        light="color: #f5d6d6; intensity: 0.62; castShadow: false"
+        position="0.54768 -0.12046 20.87336"
+        rotation="4.729193641009815 2.0804097541200193 91.28363592024277"
+      ></a-entity>
+      <a-entity
+        id="side_light-2"
+        light="color: #f5d6d6; intensity: 1; castShadow: false"
+        position="0.54768 3.65859 -40.44924"
+        rotation="-9.310564170875878 2.1010362347447287 90.77198460919094"
+      ></a-entity>
+
+      <a-sky src="#sky" rotation="0 55 0"></a-sky>
+      <a-entity
+        id="finish_point2"
+        geometry="primitive: torus; radius: 0.3; radiusTubular: 0.03"
+        position="-2.38591 0 -9.19091"
+        rotation="90 0 0"
+        material="opacity: 0.5; transparent: true; color: #ffd500"
+      ></a-entity>
+      <a-entity
+        id="finish_point1"
+        geometry="primitive: torus; radius: 0.29; radiusTubular: 0.03"
+        position="-16.50272 0.23787 25.09608"
+        rotation="90 0 0"
+        material="opacity: 0.5; transparent: true; color: #ffd500"
+      ></a-entity>
+      <a-entity
+        id="start_point"
+        geometry="primitive: torus; radius: 0.31; radiusTubular: 0.03"
+        position="47.07424 0.038 11.79299"
+        rotation="90 0 0"
+        material="opacity: 0.5; transparent: true; color: #ffd500"
+      ></a-entity>
+      <a-entity
+        position="47.15151 2.63865 11.73677"
+        light="color: #d9e38c; decay: 1.6; intensity: 40; penumbra: 0.66; type: spot"
+        rotation="-90 90 90"
+      ></a-entity>
+      <a-entity
+        light="color: #e7d936; type: point"
+        position="-16.52334 0.28717 25.09504"
+        id="finish_light1"
+      ></a-entity>
+      <a-entity
+        position="-2.40574 0.1634 -9.13469"
+        light="color: #dbcd33; type: point"
+      ></a-entity>
+      <!-- Easels Settings -->
+      <a-entity
+        id="ui1"
+        highlight=""
+        position="0.87215 -0.02136 2.63014"
+        scale="0.73127 0.73127 0.73127"
+      >
+        <a-entity
+          gltf-model="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          position="1.3422 0 1.46094"
+        ></a-entity>
+        <a-entity
+          position="1.44653 1.33071 1.8981"
+          light="angle: 60.55; color: #d1b271; intensity: 11.82; penumbra: 0.47; type: spot"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <a-entity
+          id="menu1"
+          highlight=""
+          position="1.32689 1.45713 1.74775"
+          scale="1.33556 2.48443 1.33556"
+          rotation="-8.27 0 0"
+        >
+          <a-entity
+            id="im_Button1"
+            mixin="frame_vertical"
+            class="raycastable menu-button"
+          >
+            <a-entity
+              material="side: double; src: #apsida"
+              mixin="poster_v"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      <a-entity
+        id="ui2"
+        highlight=""
+        scale="0.75401 0.75401 0.75401"
+        position="-0.66369 -0.0182 -7.1424"
+        rotation="0 180 0"
+      >
+        <a-entity
+          gltf-model="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          position="1.3422 0 1.46094"
+        ></a-entity>
+        <a-entity
+          position="1.44653 1.33071 1.8981"
+          light="angle: 60.55; color: #d1b271; intensity: 11.82; penumbra: 0.47; type: spot"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <a-entity
+          id="menu2"
+          position="1.32689 1.45713 1.74775"
+          scale="1.33556 2.48443 1.33556"
+          rotation="-8.27 0 0"
+        >
+          <a-entity
+            id="im_Button2"
+            mixin="frame_vertical"
+            class="raycastable menu-button"
+          >
+            <a-entity
+              material="side: double; src: #kruchta"
+              mixin="poster_v"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="ui3"
+        highlight=""
+        position="42.07448 0.02805 1.12296"
+        scale="0.66419 0.66419 0.66419"
+        rotation="0 90 0"
+      >
+        <a-entity
+          gltf-model="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          position="1.3422 0 1.46094"
+        ></a-entity>
+        <a-entity
+          position="1.44653 1.33071 1.8981"
+          light="angle: 60.55; color: #d1b271; intensity: 11.82; penumbra: 0.47; type: spot"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <a-entity
+          id="menu3"
+          position="1.32689 1.45713 1.74775"
+          scale="1.33556 2.48443 1.33556"
+          rotation="-8.27 0 0"
+        >
+          <a-entity
+            id="im_Button3"
+            mixin="frame_horizontal"
+            class="raycastable menu-button"
+          >
+            <a-entity
+              material="side: double; src: #exterior_1890"
+              mixin="poster_h"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      <a-entity
+        id="ui4"
+        highlight=""
+        scale="0.66396 0.66396 0.66396"
+        position="-16.47669 0.14973 22.44488"
+        rotation="0 -22.92633321436476 0"
+      >
+        <a-entity
+          gltf-model="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          position="1.3422 0 1.46094"
+        ></a-entity>
+        <a-entity
+          position="1.44653 1.33071 1.8981"
+          light="angle: 60.55; color: #d1b271; intensity: 11.82; penumbra: 0.47; type: spot"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <a-entity
+          id="menu4"
+          position="1.32689 1.45713 1.74775"
+          scale="1.33556 2.48443 1.33556"
+          rotation="-8.27 0 0"
+        >
+          <a-entity
+            id="im_Button4"
+            mixin="frame_vertical"
+            class="raycastable menu-button"
+          >
+            <a-entity
+              material="side: double; src: #kaple_img"
+              mixin="poster_v"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="ui5"
+        highlight=""
+        scale="0.77867 0.77867 0.77867"
+        position="-17.05093 -0.03408 32.76638"
+        rotation="0 -31.37688773474927 0"
+      >
+        <a-entity
+          gltf-model="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          position="1.3422 0 1.46094"
+        ></a-entity>
+        <a-entity
+          position="1.44653 1.33071 1.8981"
+          light="angle: 60.55; color: #d1b271; intensity: 11.82; penumbra: 0.47; type: spot"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <a-entity
+          id="menu5"
+          position="1.32689 1.45713 1.74775"
+          scale="1.33556 2.48443 1.33556"
+          rotation="-8.27 0 0"
+        >
+          <a-entity
+            id="im_Button5"
+            mixin="frame_vertical"
+            class="raycastable menu-button"
+          >
+            <a-entity
+              material="side: double; src: #exterior_morstadt"
+              mixin="poster_v"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="ui6"
+        highlight=""
+        scale="0.69452 0.69452 0.69452"
+        position="23.00186 0.47396 28.08875"
+        rotation="0 53.43805467846649 0"
+      >
+        <a-entity
+          gltf-model="https://cdn.glitch.me/7c9042da-0e88-4348-80f6-e62dbb0aef85/easel.glb?v=1747679798890"
+          position="1.3422 0 1.46094"
+        ></a-entity>
+        <a-entity
+          position="1.44653 1.33071 1.8981"
+          light="angle: 60.55; color: #d1b271; intensity: 11.82; penumbra: 0.47; type: spot"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <a-entity
+          id="menu6"
+          position="1.32689 1.45713 1.74775"
+          scale="1.33556 2.48443 1.33556"
+          rotation="-8.27 0 0"
+        >
+          <a-entity
+            id="im_Button6"
+            mixin="frame_vertical"
+            class="raycastable menu-button"
+          >
+            <a-entity
+              material="side: double; src: #exterior_bok"
+              mixin="poster_v"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      <a-entity
+        id="infoPanel"
+        follow-camera="offset: 0 0 -2"
+        info-panel
+        visible="false"
+        scale="0.001 0.001 0.001"
+        geometry="primitive: plane; width: 1.5; height: 2"
+        material="color: #333333; shader: flat; transparent: false"
+        class="raycastable"
+      >
+        <a-entity
+          id="apsidaImage"
+          mixin="infoPlaneImage"
+          material="src: #apsidaPanel"
+          visible="false"
+        ></a-entity>
+        <a-entity
+          id="kruchtaImage"
+          mixin="infoPlaneImage"
+          material="src: #kruchtaPanel"
+          visible="false"
+        ></a-entity>
+        <a-entity
+          id="exterior_1890Image"
+          mixin="infoPlaneImage"
+          material="src: #exterior_1890Panel"
+          visible="false"
+        ></a-entity>
+        <a-entity
+          id="kaple_imgImage"
+          mixin="infoPlaneImage"
+          material="src: #kaple_imgPanel"
+          visible="false"
+        ></a-entity>
+        <a-entity
+          id="exterior_morstadtImage"
+          mixin="infoPlaneImage"
+          material="src: #exterior_morstadtPanel"
+          visible="false"
+        ></a-entity>
+        <a-entity
+          id="exterior_bokImage"
+          mixin="infoPlaneImage"
+          material="src: #exterior_bokPanel"
+          visible="false"
+        ></a-entity>
+        <a-entity
+          id="infoPlaneTitle"
+          position="-0.68 0.1 0"
+          text="shader: msdf; anchor: left; width: 1.4; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"
+        ></a-entity>
+        <a-entity
+          id="infoPlaneDescription"
+          position="-0.68 -0.05 0"
+          text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        ></a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+
+  <script src="highlight.js"></script>
+  <script src="info-panel.js"></script>
+  <script src="follow-camera.js"></script>
+  <script src="loadingScreen.js"></script>
+</html>
